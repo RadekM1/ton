@@ -9,8 +9,9 @@ import { VscError } from "react-icons/vsc";
 import IconButton from '@mui/material/IconButton';
 import { CgArrowDown } from "react-icons/cg";
 import Pagination from '@mui/material/Pagination';
-import HandlePagination from "@/app/functions/handlePagination";
 import {handleChangePaginat} from "@/app/functions/handleChangePaginat";
+import PaginationHowManyRows from "./paginationHowManyRows";
+import { ArraySort } from '@/app/functions/arraySort';
 
 export default function ProductTable({ inputRows }) {
 
@@ -19,47 +20,31 @@ export default function ProductTable({ inputRows }) {
     const [sortingColumn, setsortingColumn] = useState(null)
     const [sortingOrder, setSortingOrder] = useState('asc')
     const [rowsPerPage, setRowsPerPage] = useState(20)
-    const [paginationNum, setpaginationNum] = useState(50)
     const [currentPage, setCurrentPage] = useState(1)
 
     const handleClickSecondary = (id) => {
       secondActive === id ? setSecondActive(null) : setSecondActive(id)
     }
 
-    /*
-
-    onClick={column.sorting === true ? () => { handleSorting(column.key) } : undefined}
-
     const handleSorting = (key) => {
-
-      if(sortingColumn === key){
-        let temp = ((sortingColumn === key) && (sortingOrder === 'asc')) ? 'desc' : 'asc';
-        setSortingOrder(temp)
-      }
-      else{
+      if (sortingColumn === key) {
+        const newOrder = sortingOrder === 'asc' ? 'desc' : 'asc'; 
+        setSortingOrder(newOrder);
+        ArraySort(rows, key, newOrder, setRows);
+      } else {
         setsortingColumn(key);
-        setSortingOrder('asc')
+        setSortingOrder('asc'); 
+        ArraySort(rows, key, 'asc', setRows); 
       }
-    }
+    };
 
-    const handlePaginationSlice = () => {
-      const firstPag = rows.slice(0,50);
-    setRows(firstPag)
-    console.log('fire test')
-    }
-*/
-
-console.log(currentPage)
+  const startIndex = (currentPage - 1) * rowsPerPage
+  const paginatedRows = rows.slice(startIndex, startIndex + rowsPerPage)
 
 
   return (
-    <div className="flex flex-col items-center px-1 ">
-      <div className="mt-20">
+    <div className="flex flex-col items-center md:items-end md:mr-10 md:mt-10 px-1 ">
 
-      <button onClick={()=>HandlePagination(20, rows.length,setpaginationNum )} className="border bg-gray-300 hover:bg-gray-200 m-2 p-3 rounded-full">první paggination</button>
-
-
-      </div>
       <div className="md:w-2/3 flex-grow md:border bg-white md:border-gray-300 rounded-xl md:p-2 md:m-2 mt-4 w-full shadow-[0_10px_25px_rgba(0,0,0,0.1),0_10px_50px_rgba(0,0,0,0.2)] border-gradient-to-r from-blue-400 via-purple-500 to-pink-500"> 
         <table className="min-w-full text-xs relative md:text-start md:text-sm bg-white text-gray-500 dark:text-gray-400">
           <thead className="text-xs  md:text-sm rounded-xl border-gray-300 text-gray-700  bg-white dark:bg-gray-700 dark:text-gray-400">
@@ -68,7 +53,7 @@ console.log(currentPage)
               return (
                 <th
                   key={column.key}
-                  
+                  onClick={column.sorting === true ? () => { handleSorting(column.key) } : undefined}
                   scope="col"
                   className={`sticky -top-1 bg-slate-700 pl-1  ${column.sorting === true ? 'hover:cursor-pointer hover:bg-slate-500 dark:hover:bg-gray-600' : ''} text-white text-start md:mx-2 z-10 border-[1px] border-transparent dark:bg-gray-700 pr-4 py-2 w-auto md:text-sm text-xs`}
                 >
@@ -86,7 +71,7 @@ console.log(currentPage)
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {paginatedRows.map((row) => (
                 <React.Fragment key={row.id} >
                     <tr className=" text-xs md:text-sm border-b dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600">
                         {columnsNamesMainList.map((column) => {
@@ -94,11 +79,11 @@ console.log(currentPage)
                           switch (column.key) {
                               case 'image_link': 
                                   cellContent = 
-                                  row[column.key] !== null ? (<Image src={row[column.key]} alt="" priority width={60} height={60} />) : null; 
+                                  row[column.key] !== null ? (<Image src={row[column.key]} alt="produkt" priority width={60} height={60} />) : null; 
                                   break;
                               case 'link': 
                                   cellContent = 
-                                  (<a href={row.link} target="_blank" rel="noopener noreferrer"> <FaLink className="text-gray w-5 h-5 " /> </a>); 
+                                  (<a href={row.link} target="_blank" className="flex justify-center" rel="noopener noreferrer"> <FaLink className="text-gray w-5 h-5 " /> </a>); 
                                   break;
                               case 'price': 
                                   cellContent = 
@@ -107,12 +92,12 @@ console.log(currentPage)
                               case 'details': 
                                   cellContent = 
                                   <IconButton >
-                                    <IoArrowDownCircleOutline  onClick={()=>handleClickSecondary(row.id)} id={row.id} className={`w-6 h-6 text-gray transform transition ease-in-out duration-500 ${row.id === secondActive ? 'rotate-180 ' : 'rotate-0'}`} /> 
+                                    <IoArrowDownCircleOutline  onClick={()=>handleClickSecondary(row.id)} id={row.id} className={`w-6 h-6 text-gray  transform transition ease-in-out duration-500 ${row.id === secondActive ? 'rotate-180 ' : 'rotate-0'}`} /> 
                                   </IconButton>; 
                                   break;
                               case 'availability': 
                                   cellContent = 
-                                  row[column.key] === true ? <FaCheck className="text-green-600"/> : <VscError className="text-red-600" />;
+                                  row[column.key] === true ? <FaCheck className="text-green-600 text-center ml-3"/> : <VscError className="text-red-600" />;
                                   break;
                               default: cellContent = 
                                   row[column.key]; 
@@ -139,17 +124,21 @@ console.log(currentPage)
             ))}  
           </tbody>
         </table>
-        <div className="flex w-full justify-end">
-          <Pagination 
-            count={paginationNum} 
-            page={currentPage}
-            className="mt-2" 
-            id="prepinani-pagination"
-            onChange={(event, value)=>handleChangePaginat(event, value, setCurrentPage)} 
-          />
-            
+        <div className="flex-col flex">
+          <div className="flex w-full gap-3 md:justify-between mt-4 flex-col-reverse md:flex-row">
+            <PaginationHowManyRows rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} />
+            <Pagination 
+              count={Math.ceil(rows.length / rowsPerPage)} 
+              page={currentPage}
+              id="prepinani-pagination"
+              width='120'
+              onChange={(event, value)=>handleChangePaginat(event, value, setCurrentPage)} 
+            />
+          </div>
+          <div className="flex justify-end">
+            <span className="text-gray-600 items-center text-sm mt-4 m-2 md:mr-6">v seznamu se nalézá celkem {rows.length} produktů.</span>
+          </div>
         </div>
-        
       </div>
     </div>
   );
