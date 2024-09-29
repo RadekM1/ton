@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
-export default function PaginationHowManyRows({rowsPerPage, setRowsPerPage}) {
+export default function PaginationHowManyRowsBtn({rowsPerPage, setRowsPerPage}) {
 
 
   const handleChange = (event) => {

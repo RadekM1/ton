@@ -8,11 +8,11 @@ export const columnsNamesMainList = [
     { key: 'link', label: 'Url', sorting: false },
   ];
   export const columnsNamesSecondaryList = [
-    { key: 'id', label: 'ID' },
-    { key: 'title', label: 'Titulek' },
-    { key: 'condition', label: 'Stav' },
-    { key: 'product_code', label: 'Kód produktu' },
-    { key: 'product_type', label: 'Typ' },
-    { key: 'description', label: 'Popis' },
+    { key: 'id', label: 'ID', sorting: true },
+    { key: 'title', label: 'Titulek', sorting: true},
+    { key: 'condition', label: 'Stav', sorting: true },
+    { key: 'product_code', label: 'Kód produktu', sorting: true },
+    { key: 'product_type', label: 'Typ', sorting: true },
+    { key: 'description', label: 'Popis', sorting: true },
   ];
   

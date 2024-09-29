@@ -1,4 +1,5 @@
 'use client';
+
 import React from "react";
 import { useState } from "react";
 import Image from "next/image";
@@ -7,13 +8,16 @@ import { columnsNamesMainList, columnsNamesSecondaryList } from "@/library/table
 import { IoArrowDownCircleOutline } from "react-icons/io5";
 import { VscError } from "react-icons/vsc";
 import IconButton from '@mui/material/IconButton';
-import { CgArrowDown } from "react-icons/cg";
+import { RiArrowDropDownLine } from "react-icons/ri";
 import Pagination from '@mui/material/Pagination';
 import {handleChangePaginat} from "@/app/functions/handleChangePaginat";
-import PaginationHowManyRows from "./paginationHowManyRows";
+import PaginationHowManyRowsBtn from "./paginationHowManyRowsBtn";
 import { ArraySort } from '@/app/functions/arraySort';
+import TableInteractionMenu from "./tableInteractionMenu";
+import Navbar from "./navbar";
+import { handleClickSecondary } from "@/app/functions/handleClickSecondary";
 
-export default function ProductTable({ inputRows }) {
+export default function ProductTable({ inputRows, categories, priceRange }) {
 
     const [rows, setRows] = useState(inputRows)
     const [secondActive, setSecondActive] = useState(null)
@@ -21,49 +25,87 @@ export default function ProductTable({ inputRows }) {
     const [sortingOrder, setSortingOrder] = useState('asc')
     const [rowsPerPage, setRowsPerPage] = useState(20)
     const [currentPage, setCurrentPage] = useState(1)
+    const [filteredPrice, setFilteredPrice] = useState([priceRange[0], priceRange[1]]);
+    const [stockChecked, setStockChecked] = useState('checked')
+    const [searchField, setSearchField] = useState('')
+    const [selectedCat, setSelectedCat] = useState(categories)
+    const [filteredRows, setFilteredRows] = useState(rows)
+    const userFilter = [
+      filteredPrice, 
+      stockChecked, 
+      selectedCat, 
+      searchField,
+    ]
 
-    const handleClickSecondary = (id) => {
-      secondActive === id ? setSecondActive(null) : setSecondActive(id)
+    const HandleReset = () => {
+      setSearchField('')
+      setStockChecked('checked')
+      setSelectedCat(categories)
+      setFilteredPrice([priceRange[0], priceRange[1]])
     }
+
+    const labelCat = categories
 
     const handleSorting = (key) => {
       if (sortingColumn === key) {
         const newOrder = sortingOrder === 'asc' ? 'desc' : 'asc'; 
         setSortingOrder(newOrder);
-        ArraySort(rows, key, newOrder, setRows);
+        ArraySort(filteredRows, key, newOrder, setFilteredRows);
       } else {
         setsortingColumn(key);
         setSortingOrder('asc'); 
-        ArraySort(rows, key, 'asc', setRows); 
+        ArraySort(filteredRows, key, 'asc', setFilteredRows); 
       }
     };
 
   const startIndex = (currentPage - 1) * rowsPerPage
-  const paginatedRows = rows.slice(startIndex, startIndex + rowsPerPage)
+  const paginatedRows = filteredRows.slice(startIndex, startIndex + rowsPerPage)
+
+
+
 
 
   return (
-    <div className="flex flex-col items-center md:items-end md:mr-10 md:mt-10 px-1 ">
+    
+    <div className="flex lg:flex-row flex-col items-start md:items-start  lg:mr-10 lg:mt-10 lg:px-1 ">
 
-      <div className="md:w-2/3 flex-grow md:border bg-white md:border-gray-300 rounded-xl md:p-2 md:m-2 mt-4 w-full shadow-[0_10px_25px_rgba(0,0,0,0.1),0_10px_50px_rgba(0,0,0,0.2)] border-gradient-to-r from-blue-400 via-purple-500 to-pink-500"> 
+      <Navbar 
+      filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
+      setStockChecked={setStockChecked} stockChecked={stockChecked} 
+      searchField = {searchField} setSearchField ={setSearchField}
+      selectedCat = {selectedCat} handleReset={HandleReset} setSelectedCat ={setSelectedCat} labelCat={labelCat}
+      />
+      
+      {/* nahoře je řešení interakce s tabulkou pro mobilní zařízení (příliš mnoho změn aby bylo efektivní mít pouze jednu komponentu, mění se viditelnost dle @media ascreen) */}
+      
+      <TableInteractionMenu 
+      filteredPrice={filteredPrice}  setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
+      setStockChecked={setStockChecked} stockChecked={stockChecked} 
+      searchField = {searchField} setSearchField ={setSearchField}
+      selectedCat = {selectedCat} handleReset={HandleReset} setSelectedCat ={setSelectedCat} labelCat={labelCat}
+      />
+      
+      {/* tělo tabulky */}
+      
+      <div className="lg:w-2/3 flex-grow md:border bg-white md:border-gray-300 rounded-xl md:p-2 lg:m-2 mt-4 w-full shadow-[0_10px_25px_rgba(0,0,0,0.1),0_10px_50px_rgba(0,0,0,0.2)] border-gradient-to-r from-gray-200 to-gray-500"> 
         <table className="min-w-full text-xs relative md:text-start md:text-sm bg-white text-gray-500 dark:text-gray-400">
           <thead className="text-xs  md:text-sm rounded-xl border-gray-300 text-gray-700  bg-white dark:bg-gray-700 dark:text-gray-400">
-            <tr className="bg-white clear-start align-top  overflow-auto ">
+            <tr className="bg-white clear-start align-top  overflow-auto  ">
             {columnsNamesMainList.map((column) => {
               return (
                 <th
                   key={column.key}
                   onClick={column.sorting === true ? () => { handleSorting(column.key) } : undefined}
                   scope="col"
-                  className={`sticky -top-1 bg-slate-700 pl-1  ${column.sorting === true ? 'hover:cursor-pointer hover:bg-slate-500 dark:hover:bg-gray-600' : ''} text-white text-start md:mx-2 z-10 border-[1px] border-transparent dark:bg-gray-700 pr-4 py-2 w-auto md:text-sm text-xs`}
+                  className={`sticky top-12 lg:-top-1 bg-slate-700 pl-1   ${column.sorting === true ? 'hover:cursor-pointer hover:bg-slate-500 dark:hover:bg-gray-600' : ''} text-white text-start md:mx-2 z-10 border-[1px] border-transparent dark:bg-gray-700 pr-4 py-2 w-auto md:text-sm text-xs`}
                 >
                   {column.label}
                   {column.sorting === true && 
-                  <CgArrowDown 
+                  <RiArrowDropDownLine 
                     className={`
                     ${(column.key === sortingColumn) && (sortingOrder === 'asc') ?  'text-green-400 rotate-180' : '' } 
                     ${(column.key === sortingColumn) && (sortingOrder === 'desc') ? 'text-red-400 rotate-0' : '' } 
-                  text-gray-400 w-5 h-5`} 
+                  text-gray-400 w-8 h-8 font-bold`} 
                   />}
                 </th>
               );
@@ -92,7 +134,7 @@ export default function ProductTable({ inputRows }) {
                               case 'details': 
                                   cellContent = 
                                   <IconButton >
-                                    <IoArrowDownCircleOutline  onClick={()=>handleClickSecondary(row.id)} id={row.id} className={`w-6 h-6 text-gray  transform transition ease-in-out duration-500 ${row.id === secondActive ? 'rotate-180 ' : 'rotate-0'}`} /> 
+                                    <IoArrowDownCircleOutline  onClick={()=>handleClickSecondary(row.id, setSecondActive, secondActive)} id={row.id} className={`w-6 h-6 text-gray  transform transition ease-in-out duration-500 ${row.id === secondActive ? 'rotate-180 ' : 'rotate-0'}`} /> 
                                   </IconButton>; 
                                   break;
                               case 'availability': 
@@ -119,14 +161,13 @@ export default function ProductTable({ inputRows }) {
                                 </tr>
                               )
                             })} 
-                            
                 </React.Fragment>
             ))}  
           </tbody>
         </table>
         <div className="flex-col flex">
           <div className="flex w-full gap-3 md:justify-between mt-4 flex-col-reverse md:flex-row">
-            <PaginationHowManyRows rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} />
+            <PaginationHowManyRowsBtn rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} />
             <Pagination 
               count={Math.ceil(rows.length / rowsPerPage)} 
               page={currentPage}
@@ -136,7 +177,7 @@ export default function ProductTable({ inputRows }) {
             />
           </div>
           <div className="flex justify-end">
-            <span className="text-gray-600 items-center text-sm mt-4 m-2 md:mr-6">v seznamu se nalézá celkem {rows.length} produktů.</span>
+            <span className="text-gray-600 items-center text-sm mt-4 m-2 md:mr-6">zobrazeno celkem {rows.length} produktů.</span>
           </div>
         </div>
       </div>
