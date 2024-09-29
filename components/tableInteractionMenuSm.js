@@ -15,7 +15,7 @@ export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice
     
     return (
         <div className=" block lg:hidden p-3 lg:p-0  bg-white shadow-lg lg:mx-5 rounded-2xl ">
-            <div className="  clear-start w-full align-top flex flex-col lg:m-5   overflow-auto">
+            <div className="  clear-start w-full   align-top flex flex-col lg:m-5   overflow-auto">
                 <div className="flex flex-col mt-3 items-center rounded-xl lg:border-[1px] text-center border-gray-300 lg:mr-10">    
                     <div className="border-b-[1px] block my-2 pb-2 lg:hidden border-gray-300 ml-2">
                         <p className=" ">Vyhledávací parametry</p> 

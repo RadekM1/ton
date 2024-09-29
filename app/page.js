@@ -15,8 +15,8 @@ export default async function  HomePage() {
   const dataFromApi = await apiImport.json();
   const preparedDataFromXml = await JsonFileFromXmlSimplified(xmlImport) // funkce čistící JSON z XML do stejné struktury jako data z API před spojením dat + dodatečné kontroly + přetypování proměnných (je předrendrováno staticky na serveru takže si můžu dovolit kontroly navíc)
   const rows = await JoinedInputsForTable(preparedDataFromXml,dataFromApi) // příprava dat pro tabulky (spojení importů do jednoho javascript objektu)
-  const categories = Categories(rows)
-  const priceRange = PriceRange(rows)
+  const categories = Categories(rows) // příprava dat na serveru před navštívením prvního uživatele aby byla doručena statická data rychle
+  const priceRange = PriceRange(rows) // příprava dat na serveru před navštívením prvního uživatele aby byla doručena statická data rychle
 
   return (
     <>

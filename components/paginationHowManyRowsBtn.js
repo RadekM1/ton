@@ -19,7 +19,7 @@ export default function PaginationHowManyRowsBtn({rowsPerPage, setRowsPerPage}) 
         <InputLabel id="demo-simple-select-label">Produktů</InputLabel>
         <Select
           labelId="paginatio-select"
-          id="paginatio-select"
+          name='pag_select'
           value={rowsPerPage}
           label="Počet produktů na stránku"
           onChange={handleChange}

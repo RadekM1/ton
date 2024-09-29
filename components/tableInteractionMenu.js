@@ -37,7 +37,7 @@ export default function TableInteractionMenu ({
                     </div>
                 </div>
                 <div className="flex flex-col mt-3 items-center rounded-xl border-[1px] border-gray-300 mr-10">
-                <div className="my-3 ml-2 border-b-[1px] mb-1 border-b-gray-600 text-gray-600">
+                <div className="my-3 ml-2  mb-1 text-gray-600">
                         <p>filtrování produktů</p>
                     </div > 
                     <div className="my-3 ml-2">

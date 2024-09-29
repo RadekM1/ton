@@ -72,7 +72,7 @@ export default function Navbar({filteredPrice, setFilteredPrice, priceRange, sto
             <ul
               role="menubar"
               aria-label="Select page"
-              className={`absolute right-0 top-[50px] z-20 w-2/3 justify-center overflow-hidden  overflow-y-auto overscroll-contain mr-1 mt-1 font-medium transition-[opacity,visibility] duration-300 ${
+              className={`absolute right-0 top-[50px] z-20 w-2/3 md:w-2/5 justify-center overflow-hidden  overflow-y-auto overscroll-contain mr-1 mt-1 font-medium transition-[opacity,visibility] duration-300 ${
                 isToggleOpen
                   ? "visible opacity-100 backdrop-blur-sm"
                   : "invisible opacity-0"
