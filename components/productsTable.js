@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Image from "next/image";
 import { FaLink, FaCheck } from "react-icons/fa6";
@@ -17,6 +17,7 @@ import TableInteractionMenu from "./tableInteractionMenu";
 import Navbar from "./navbar";
 import { handleClickSecondary } from "@/app/functions/handleClickSecondary";
 
+
 export default function ProductTable({ inputRows, categories, priceRange }) {
 
     const [rows, setRows] = useState(inputRows)
@@ -30,6 +31,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
     const [searchField, setSearchField] = useState('')
     const [selectedCat, setSelectedCat] = useState(categories)
     const [filteredRows, setFilteredRows] = useState(rows)
+
     const userFilter = [
       filteredPrice, 
       stockChecked, 
@@ -37,15 +39,28 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
       searchField,
     ]
 
-    //*
+      useEffect(() => {
+        const filter = rows.filter((row) => { 
+          let keys = Object.keys(row);
+            let fulltextTrue =  keys.some((key)=>{
+              return String(row[key]).toLowerCase().includes(String(searchField.toLowerCase()));;
+            })
+            let onStockTrue = row.availability === true ||  stockChecked === false;
+            let selectedTrue = selectedCat.some((select)=>row.product_type.includes(select));
+            let priceRangeTrue = (parseFloat(row.price) >= parseFloat(filteredPrice[0])) && (parseFloat(row.price) <= parseFloat(filteredPrice[1]));
+            return fulltextTrue && onStockTrue && selectedTrue && priceRangeTrue
+          });
+        setFilteredRows(filter)}, [stockChecked, selectedCat, filteredPrice, searchField ])
+    
+
 
     const HandleReset = () => {
       setSearchField('')
       setStockChecked('checked')
       setSelectedCat(categories)
       setFilteredPrice([priceRange[0], priceRange[1]])
+      setFilteredRows(rows)
     }
-
     const labelCat = categories
 
     const handleSorting = (key) => {
@@ -63,10 +78,8 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
   const startIndex = (currentPage - 1) * rowsPerPage
   const paginatedRows = filteredRows.slice(startIndex, startIndex + rowsPerPage)
 
-
-
-
-
+   
+  
   return (
     
     <div className="flex lg:flex-row flex-col items-start md:items-start  lg:mr-10 lg:mt-10 lg:px-1 ">
@@ -171,7 +184,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
           <div className="flex w-full gap-3 md:justify-between mt-4 flex-col-reverse md:flex-row">
             <PaginationHowManyRowsBtn rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} />
             <Pagination 
-              count={Math.ceil(rows.length / rowsPerPage)} 
+              count={Math.ceil(filteredRows.length / rowsPerPage)} 
               page={currentPage}
               id="prepinani-pagination"
               width='120'
@@ -179,7 +192,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
             />
           </div>
           <div className="flex justify-end">
-            <span className="text-gray-600 items-center text-sm mt-4 m-2 md:mr-6">zobrazeno celkem {rows.length} produktů.</span>
+            <span className="text-gray-600 items-center text-sm mt-4 m-2 md:mr-6">zobrazeno celkem {filteredRows.length} produktů.</span>
           </div>
         </div>
       </div>

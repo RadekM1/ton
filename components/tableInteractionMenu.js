@@ -9,6 +9,8 @@ import { FaFilePdf } from "react-icons/fa6";
 import { BsFiletypeXlsx } from "react-icons/bs";
 import CategorySelectBtn from "./categorySelectBtn";
 import ResetBtn from "./resetBtn";
+import { useState } from "react";
+
 
 export default function TableInteractionMenu ({
     filteredPrice, setFilteredPrice, priceRange, 
@@ -17,8 +19,7 @@ export default function TableInteractionMenu ({
     labelCat, handleReset
     }) {
     
-         //*
-
+    
 
     return (
         <div className=" lg:w-2/5 xl:w-1/5 sticky top-4 hidden lg:block  bg-white shadow-lg mx-5 rounded-2xl ">
@@ -44,6 +45,7 @@ export default function TableInteractionMenu ({
                         <SearchField searchField = {searchField} setSearchField ={setSearchField} />
                     </div > 
                     <div className=" my-3 ml-2">
+                        
                         <RangeSlider filteredPrice={filteredPrice}setFilteredPrice={setFilteredPrice} priceRange={priceRange} />
                     </div>
                     <div className=" my-3 ml-2">

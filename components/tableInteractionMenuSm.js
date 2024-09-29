@@ -20,7 +20,7 @@ export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice
                     <div className="border-b-[1px] block my-2 pb-2 lg:hidden border-gray-300 ml-2">
                         <p className=" ">Vyhledávací parametry</p> 
                     </div>
-                    <div className="my-1 ">
+                    <div className="my-1 ml-2 ">
                         <SearchField searchfield = {searchField} setSearchField ={setSearchField} />
                     </div >
                         

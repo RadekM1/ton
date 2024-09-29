@@ -14,7 +14,7 @@ export default function CheckBox ({stockChecked, setStockChecked}) {
   
     return (
             <FormControlLabel
-                label="Zboží skladem"
+                label="zboží skladem"
                 labelPlacement="end"
                 control={
                     <Checkbox

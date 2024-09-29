@@ -27,14 +27,13 @@ import { useState, useEffect } from 'react';
     };
   
     return (
-      <Box sx={{ width: 150, margin: 3, height: 0}}>
+      <>
+      <Box sx={{ width: 200, margin: 3, height: 0}}>
         <Slider
             size='small'
             getAriaLabel={() => '€'}
             value={tempVal}
             onChange={handleChange}
-            valueLabelDisplay="on"
-            valueLabelFormat={(value)=> `${value} €` }
             onMouseUp = {handleMouseUp}
             color="#808080"
             min={priceRange[0]}
@@ -42,5 +41,13 @@ import { useState, useEffect } from 'react';
             
         />
       </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 1 }}>
+        <span className='text-gray-600 text-sm mt-2 mx-2'>{`Min: ${tempVal[0]} €`}</span>
+        <span className='text-gray-600 text-sm mt-2 mx-2'>{`Max: ${tempVal[1]} €`}</span>
+      </Box>
+
+
+      </>
+      
     );
   }
