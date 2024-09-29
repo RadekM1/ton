@@ -37,6 +37,8 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
       searchField,
     ]
 
+    //*
+
     const HandleReset = () => {
       setSearchField('')
       setStockChecked('checked')
