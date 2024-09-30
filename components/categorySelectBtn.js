@@ -32,7 +32,7 @@ export default function CategorySelectBtn({selectedCat, setSelectedCat, labelCat
       target: { value },
     } = event;
     setSelectedCat(
-      // On autofill we get a stringified value.
+
       typeof value === 'string' ? value.split(',') : value,
     );
   };
