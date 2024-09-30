@@ -5,7 +5,6 @@ import RangeSlider from "./rangeSlider"
 import CheckBox from "./checkBox"
 import { MdOutlineFileDownload } from "react-icons/md";
 import { FaFileCsv } from "react-icons/fa";
-import { FaFilePdf } from "react-icons/fa6";
 import { BsFiletypeXlsx } from "react-icons/bs";
 import CategorySelectBtn from "./categorySelectBtn";
 import ResetBtn from "./resetBtn";

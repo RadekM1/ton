@@ -82,7 +82,7 @@ export default function Navbar({filteredPrice, handleChange, handleClick, setFil
                 <TableInteractionMenuSm 
                   setStockChecked={setStockChecked} stockChecked={stockChecked} 
                   filteredPrice={filteredPrice}setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
-                  searchfield = {searchField} 
+                  searchField = {searchField}
                   selectedCat = {selectedCat} handleReset={handleReset} setSelectedCat ={setSelectedCat} handleChange={handleChange} labelCat={labelCat} handleClick={handleClick}
                 />
             </ul>

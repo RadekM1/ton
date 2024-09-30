@@ -9,8 +9,8 @@ import { BsFiletypeXlsx } from "react-icons/bs";
 import CategorySelectBtn from "./categorySelectBtn";
 import ResetBtn from "./resetBtn";
 
-export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice, priceRange, stockChecked, setStockChecked, searchField, selectedCat, setSelectedCat,
-    labelCat, handleReset, handleClick, handleChange}) {
+export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice, priceRange, stockChecked, setStockChecked, searchField, handleChange, selectedCat, setSelectedCat,
+    labelCat, handleReset, handleClick}) {
     
     return (
         <div className=" block lg:hidden p-3 lg:p-0  bg-white shadow-lg lg:mx-5 rounded-2xl ">
@@ -20,7 +20,7 @@ export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice
                         <p className=" ">Vyhledávací parametry</p> 
                     </div>
                     <div className="my-5 ml-4 ">
-                        <SearchField searchfield ={searchField} handleChange={handleChange} />
+                        <SearchField searchField = {searchField}  handleChange={handleChange} />
                     </div >
                         
                     <div className=" my-2 mt-10 ml-2">

@@ -51,6 +51,7 @@ useEffect(() => {
     
 const handleChange = (event) => {
   setSearchField(event.target.value);
+  console.log('change handler test')
 };
 
 const HandleReset = () => {
@@ -179,7 +180,7 @@ return (
                             return (
                               <tr key={column.key} className={` border-y-[1px] m-4 overflow-hidden text-gray-800 bg-slate-50 ${row.id === secondActive ? '' : 'hidden '}`}>
                                   <td colSpan={7} >
-                                      <span className="font-bold text-xs md:text-sm">{column.key} : </span><span className="font-thin text-xs md:text-sm">{row[column.key]}</span>
+                                      <span className="font-bold text-xs text-gray-800 md:text-sm">{column.key} : </span><span  className="font-thin text-gray-800 text-xs md:text-sm">{row[column.key]}</span>
                                   </td>
                               </tr>
                             )
