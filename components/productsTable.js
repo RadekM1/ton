@@ -51,7 +51,6 @@ useEffect(() => {
     
 const handleChange = (event) => {
   setSearchField(event.target.value);
-  console.log('change handler test')
 };
 
 const HandleReset = () => {
