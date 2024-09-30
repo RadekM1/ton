@@ -28,7 +28,7 @@ import { useState, useEffect } from 'react';
   
     return (
       <>
-        <Box sx={{ width: 200, margin: 3, height: 0}}>
+        <Box sx={{ width: 150, margin: 3, height: 0}}>
         <Slider
           size="small"
           getAriaLabel={() => '€'}

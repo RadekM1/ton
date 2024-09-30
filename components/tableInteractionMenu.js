@@ -15,8 +15,8 @@ import ResetBtn from "./resetBtn";
 export default function TableInteractionMenu ({
     filteredPrice, setFilteredPrice, priceRange, 
     setStockChecked, stockChecked, searchField, 
-    setSearchField, selectedCat, setSelectedCat,
-    labelCat, handleReset, handleClick
+    selectedCat, setSelectedCat,
+    labelCat, handleReset, handleClick, handleChange
     }) {
 
     
@@ -42,7 +42,7 @@ export default function TableInteractionMenu ({
                         <p>filtrování produktů</p>
                     </div > 
                     <div className="my-3 ml-2">
-                        <SearchField searchField = {searchField} setSearchField ={setSearchField} />
+                        <SearchField searchField ={searchField} handleChange={handleChange} />
                     </div > 
                     <div className=" my-3 ml-2">
                         
@@ -52,7 +52,7 @@ export default function TableInteractionMenu ({
                         <CategorySelectBtn labelCat ={labelCat} selectedCat ={selectedCat} setSelectedCat ={setSelectedCat} />
                     </div>
                     <div className="my-3 ml-2 flex-shrink">
-                        <CheckBox setStockChecked={setStockChecked} stockChecked={stockChecked} />
+                        <CheckBox setStockChecked={setStockChecked} stockChecked={stockChecked}  />
                     </div>
                     <div className="my-3 ml-2 flex-shrink">
                         <ResetBtn handleReset={handleReset} />
@@ -76,7 +76,6 @@ export default function TableInteractionMenu ({
                                 <BsFiletypeXlsx  className="w-8 h-8" />
                             </div>
                         </button>
-                        
                     </div>
                 </div>
             </div>

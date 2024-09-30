@@ -3,7 +3,7 @@
 import TableInteractionMenuSm from "./tableInteractionMenuSm";
 import { useState } from "react";
 
-export default function Navbar({filteredPrice, handleClick, setFilteredPrice, priceRange, stockChecked, setStockChecked, searchField, setSearchField, selectedCat, setSelectedCat,
+export default function Navbar({filteredPrice, handleChange, handleClick, setFilteredPrice, priceRange, stockChecked, setStockChecked, searchField,  selectedCat, setSelectedCat,
   labelCat, handleReset }) {
   const [isToggleOpen, setIsToggleOpen] = useState(false)
 
@@ -82,8 +82,8 @@ export default function Navbar({filteredPrice, handleClick, setFilteredPrice, pr
                 <TableInteractionMenuSm 
                   setStockChecked={setStockChecked} stockChecked={stockChecked} 
                   filteredPrice={filteredPrice}setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
-                  searchfield = {searchField} setSearchField ={setSearchField}
-                  selectedCat = {selectedCat} handleReset={handleReset} setSelectedCat ={setSelectedCat} labelCat={labelCat} handleClick={handleClick}
+                  searchfield = {searchField} 
+                  selectedCat = {selectedCat} handleReset={handleReset} setSelectedCat ={setSelectedCat} handleChange={handleChange} labelCat={labelCat} handleClick={handleClick}
                 />
             </ul>
           </nav>

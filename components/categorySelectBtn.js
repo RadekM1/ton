@@ -39,7 +39,7 @@ export default function CategorySelectBtn({selectedCat, setSelectedCat, labelCat
 
   return (
     <div>
-      <FormControl sx={{ mb: 2, width: 230 }}>
+      <FormControl sx={{ mb: 2, width: 180 }}>
         <InputLabel id="demo-multiple-checkbox-label">Typ</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"

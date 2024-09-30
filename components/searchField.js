@@ -6,11 +6,8 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { FaSearch } from 'react-icons/fa';
 
-export default function SearchField({ searchField, setSearchField }) {
-  const handleChange = (event) => {
-    let temp = event.target.value;
-    setSearchField(temp);
-  };
+export default function SearchField({ searchField, handleChange }) {
+
 
   return (
     <Box sx={{ mr: 1, display: 'flex', alignItems: 'flex-end' }}>

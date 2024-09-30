@@ -14,7 +14,7 @@ import {handleChangePaginat} from "@/app/functions/handleChangePaginat";
 import PaginationHowManyRowsBtn from "./paginationHowManyRowsBtn";
 import { ArraySort } from '@/app/functions/arraySort';
 import TableInteractionMenu from "./tableInteractionMenu";
-import Navbar from "./navbar";
+import Navbar from './navbar';
 import { handleClickSecondary } from "@/app/functions/handleClickSecondary";
 import { DownloadXls } from "@/app/functions/downloadXls";
 import { DownloadCsv } from "@/app/functions/downloadCsv";
@@ -35,28 +35,32 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
 
     
 
-      useEffect(() => {
-        const filter = rows.filter((row) => { 
-          let keys = Object.keys(row);
-            let fulltextTrue =  keys.some((key)=>{
-              return String(row[key]).toLowerCase().includes(String(searchField.toLowerCase()));;
-            })
-            let onStockTrue = row.availability === true ||  stockChecked === false;
-            let selectedTrue = selectedCat.some((select)=>row.product_type.includes(select));
-            let priceRangeTrue = (parseFloat(row.price) >= parseFloat(filteredPrice[0])) && (parseFloat(row.price) <= parseFloat(filteredPrice[1]));
-            return fulltextTrue && onStockTrue && selectedTrue && priceRangeTrue
-          });
-        setFilteredRows(filter)}, [stockChecked, selectedCat, filteredPrice, searchField ])
+    useEffect(() => {
+      const filter = rows.filter((row) => { 
+        let keys = Object.keys(row);
+          let fulltextTrue =  keys.some((key)=>{
+            return String(row[key]).toLowerCase().includes(String(searchField.toLowerCase()));;
+          })
+          let onStockTrue = row.availability === true ||  stockChecked === false;
+          let selectedTrue = selectedCat.some((select)=>row.product_type.includes(select));
+          let priceRangeTrue = (parseFloat(row.price) >= parseFloat(filteredPrice[0])) && (parseFloat(row.price) <= parseFloat(filteredPrice[1]));
+          return fulltextTrue && onStockTrue && selectedTrue && priceRangeTrue
+        });
+      setFilteredRows(filter)}, [stockChecked, selectedCat, filteredPrice, searchField ])
     
+    
+      const handleChange = (event) => {
+        setSearchField(event.target.value);
+      };
 
+      const HandleReset = () => {
+        setSearchField(''); 
+        setStockChecked('checked');
+        setSelectedCat(categories);
+        setFilteredPrice([priceRange[0], priceRange[1]]);
+        setFilteredRows(rows); 
+      };
 
-    const HandleReset = () => {
-      setSearchField('')
-      setStockChecked('checked')
-      setSelectedCat(categories)
-      setFilteredPrice([priceRange[0], priceRange[1]])
-      setFilteredRows(rows)
-    }
     const labelCat = categories
 
     const handleSorting = (key) => {
@@ -73,7 +77,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
 
   const startIndex = (currentPage - 1) * rowsPerPage
   const paginatedRows = filteredRows.slice(startIndex, startIndex + rowsPerPage)
-
+    
 
 
   const handleClickDownload = (name,  ) => {
@@ -91,7 +95,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
       <Navbar 
         filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
         setStockChecked={setStockChecked} stockChecked={stockChecked} 
-        searchField = {searchField} setSearchField ={setSearchField}
+        searchField = {searchField} setSearchField ={setSearchField} handleChange={handleChange}
         selectedCat = {selectedCat} handleReset={HandleReset} setSelectedCat ={setSelectedCat} labelCat={labelCat} handleClick={handleClickDownload}
       />
       
@@ -100,7 +104,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
       <TableInteractionMenu 
         filteredPrice={filteredPrice}  setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
         setStockChecked={setStockChecked} stockChecked={stockChecked} 
-        searchField = {searchField} setSearchField ={setSearchField}
+        searchField = {searchField} setSearchField ={setSearchField} handleChange={handleChange}
         selectedCat = {selectedCat} handleReset={HandleReset} setSelectedCat ={setSelectedCat} labelCat={labelCat} handleClick={handleClickDownload}
       />
       
@@ -165,7 +169,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
                                   break;
                               }
                         return (
-                            <td key={column.key} className="py-2 md:mx-2 md:px-2 border-[1px] text-xs md:text-sm max-w border-gray-300 whitespace-normal">
+                            <td key={column.key} className="py-2 md:mx-2 md:px-2 border-[1px] text-gray-800 text-xs md:text-sm max-w border-gray-300 whitespace-normal">
                             {cellContent}
                             </td>
                         );
@@ -173,7 +177,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
                     </tr>
                         {columnsNamesSecondaryList.map((column) => {
                               return (
-                                <tr key={column.key} className={` border-y-[1px] m-4 overflow-hidden bg-slate-50 ${row.id === secondActive ? '' : 'hidden '}`}>
+                                <tr key={column.key} className={` border-y-[1px] m-4 overflow-hidden text-gray-800 bg-slate-50 ${row.id === secondActive ? '' : 'hidden '}`}>
                                     <td colSpan={7} >
                                         <span className="font-bold text-xs md:text-sm">{column.key} : </span><span className="font-thin text-xs md:text-sm">{row[column.key]}</span>
                                     </td>

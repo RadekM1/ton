@@ -5,13 +5,12 @@ import RangeSlider from "./rangeSlider"
 import CheckBox from "./checkBox"
 import { MdOutlineFileDownload } from "react-icons/md";
 import { FaFileCsv } from "react-icons/fa";
-import { FaFilePdf } from "react-icons/fa6";
 import { BsFiletypeXlsx } from "react-icons/bs";
 import CategorySelectBtn from "./categorySelectBtn";
 import ResetBtn from "./resetBtn";
 
-export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice, priceRange, stockChecked, setStockChecked, searchField, setSearchField, selectedCat, setSelectedCat,
-    labelCat, handleReset, handleClick}) {
+export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice, priceRange, stockChecked, setStockChecked, searchField, selectedCat, setSelectedCat,
+    labelCat, handleReset, handleClick, handleChange}) {
     
     return (
         <div className=" block lg:hidden p-3 lg:p-0  bg-white shadow-lg lg:mx-5 rounded-2xl ">
@@ -20,8 +19,8 @@ export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice
                     <div className="border-b-[1px] block my-2 pb-2 lg:hidden border-gray-300 ml-2">
                         <p className=" ">Vyhledávací parametry</p> 
                     </div>
-                    <div className="my-1 ml-2 ">
-                        <SearchField searchfield = {searchField} setSearchField ={setSearchField} />
+                    <div className="my-5 ml-4 ">
+                        <SearchField searchfield ={searchField} handleChange={handleChange} />
                     </div >
                         
                     <div className=" my-2 mt-10 ml-2">
