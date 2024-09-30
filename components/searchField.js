@@ -13,7 +13,7 @@ export default function SearchField({ searchField, setSearchField }) {
   };
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+    <Box sx={{ mr: 1, display: 'flex', alignItems: 'flex-end' }}>
       
       <TextField
         name="search"

@@ -12,7 +12,7 @@ import { useState, useEffect } from 'react';
 
     const [tempVal, setTempVal] = useState(filteredPrice)
 
-    const handleMouseUp = () => {
+    const handleSliderChange = () => {
       setFilteredPrice(tempVal)
     }
     
@@ -28,25 +28,26 @@ import { useState, useEffect } from 'react';
   
     return (
       <>
-      <Box sx={{ width: 200, margin: 3, height: 0}}>
+        <Box sx={{ width: 200, margin: 3, height: 0}}>
         <Slider
-            size='small'
-            getAriaLabel={() => '€'}
-            value={tempVal}
-            onChange={handleChange}
-            onMouseUp = {handleMouseUp}
-            color="#808080"
-            min={priceRange[0]}
-            max={priceRange[1]}
-            
+          size="small"
+          getAriaLabel={() => '€'}
+          value={tempVal}
+          onChange={handleChange}
+          onMouseUp={handleSliderChange}
+          onTouchEnd={handleSliderChange}
+          sx={{
+            color: '#808080', 
+          }}
+          min={priceRange[0]}
+          max={priceRange[1]}
         />
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 1 }}>
-        <span className='text-gray-600 text-sm mt-2 mx-2'>{`Min: ${tempVal[0]} €`}</span>
-        <span className='text-gray-600 text-sm mt-2 mx-2'>{`Max: ${tempVal[1]} €`}</span>
-      </Box>
 
-
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 1 }}>
+          <span className='text-gray-600 mb-2 text-sm mt-2 mx-2'>{`Min: ${tempVal[0]} €`}</span>
+          <span className='text-gray-600 mb-2 text-sm mt-2 mx-2'>{`Max: ${tempVal[1]} €`}</span>
+        </Box>
       </>
       
     );

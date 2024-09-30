@@ -11,7 +11,7 @@ import CategorySelectBtn from "./categorySelectBtn";
 import ResetBtn from "./resetBtn";
 
 export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice, priceRange, stockChecked, setStockChecked, searchField, setSearchField, selectedCat, setSelectedCat,
-    labelCat, handleReset}) {
+    labelCat, handleReset, handleClick}) {
     
     return (
         <div className=" block lg:hidden p-3 lg:p-0  bg-white shadow-lg lg:mx-5 rounded-2xl ">
@@ -24,7 +24,7 @@ export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice
                         <SearchField searchfield = {searchField} setSearchField ={setSearchField} />
                     </div >
                         
-                    <div className=" my-2 ml-2">
+                    <div className=" my-2 mt-10 ml-2">
                         <CategorySelectBtn labelCat ={labelCat} selectedCat ={selectedCat} setSelectedCat ={setSelectedCat} />
                     </div>
                     <div className=" my-2 ml-2">
@@ -43,15 +43,16 @@ export default function TableInteractionMenuSm ({filteredPrice, setFilteredPrice
                         <MdOutlineFileDownload className="self-center" />
                     </div>
                     <div className="flex flex-grow justify-evenly items-center">
-                        <div className="w-1/3 flex justify-center">
-                            <FaFileCsv className="w-8 h-8" />
-                        </div>
-                        <div className="w-1/3 flex justify-center">
-                            <FaFilePdf className="w-8 h-8"/>
-                        </div>
-                        <div className="w-1/3 flex justify-center">
-                            <BsFiletypeXlsx className="w-8 h-8" />
-                        </div>
+                        <button name="scv-btn" onClick={(event)=>handleClick(event.currentTarget.name)}>
+                            <div  className="w-1/3justify-center text-gray-500 hover:text-gray-800">
+                                <FaFileCsv  className="w-8 h-8" />
+                            </div>
+                        </button>
+                        <button name="xlsx-btn" onClick={(event)=>handleClick(event.currentTarget.name)}>
+                            <div className="w-1/3 justify-center text-gray-500 hover:text-gray-800">
+                                <BsFiletypeXlsx  className="w-8 h-8" />
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>

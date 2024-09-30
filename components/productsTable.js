@@ -16,7 +16,8 @@ import { ArraySort } from '@/app/functions/arraySort';
 import TableInteractionMenu from "./tableInteractionMenu";
 import Navbar from "./navbar";
 import { handleClickSecondary } from "@/app/functions/handleClickSecondary";
-
+import { DownloadXls } from "@/app/functions/downloadXls";
+import { DownloadCsv } from "@/app/functions/downloadCsv";
 
 export default function ProductTable({ inputRows, categories, priceRange }) {
 
@@ -32,12 +33,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
     const [selectedCat, setSelectedCat] = useState(categories)
     const [filteredRows, setFilteredRows] = useState(rows)
 
-    const userFilter = [
-      filteredPrice, 
-      stockChecked, 
-      selectedCat, 
-      searchField,
-    ]
+    
 
       useEffect(() => {
         const filter = rows.filter((row) => { 
@@ -78,33 +74,41 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
   const startIndex = (currentPage - 1) * rowsPerPage
   const paginatedRows = filteredRows.slice(startIndex, startIndex + rowsPerPage)
 
-   
+
+
+  const handleClickDownload = (name,  ) => {
+    switch(name){
+      case 'xlsx-btn' : DownloadXls(filteredRows);break;
+      case 'scv-btn' : DownloadCsv(filteredRows);break;
+      default: break;
+    }
+  };
   
   return (
     
     <div className="flex lg:flex-row flex-col items-start md:items-start  lg:mr-10 lg:mt-10 lg:px-1 ">
 
       <Navbar 
-      filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
-      setStockChecked={setStockChecked} stockChecked={stockChecked} 
-      searchField = {searchField} setSearchField ={setSearchField}
-      selectedCat = {selectedCat} handleReset={HandleReset} setSelectedCat ={setSelectedCat} labelCat={labelCat}
+        filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
+        setStockChecked={setStockChecked} stockChecked={stockChecked} 
+        searchField = {searchField} setSearchField ={setSearchField}
+        selectedCat = {selectedCat} handleReset={HandleReset} setSelectedCat ={setSelectedCat} labelCat={labelCat} handleClick={handleClickDownload}
       />
       
       {/* nahoře je řešení interakce s tabulkou pro mobilní zařízení (příliš mnoho změn aby bylo efektivní mít pouze jednu komponentu, mění se viditelnost dle @media ascreen) */}
       
       <TableInteractionMenu 
-      filteredPrice={filteredPrice}  setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
-      setStockChecked={setStockChecked} stockChecked={stockChecked} 
-      searchField = {searchField} setSearchField ={setSearchField}
-      selectedCat = {selectedCat} handleReset={HandleReset} setSelectedCat ={setSelectedCat} labelCat={labelCat}
+        filteredPrice={filteredPrice}  setFilteredPrice={setFilteredPrice} priceRange={priceRange} 
+        setStockChecked={setStockChecked} stockChecked={stockChecked} 
+        searchField = {searchField} setSearchField ={setSearchField}
+        selectedCat = {selectedCat} handleReset={HandleReset} setSelectedCat ={setSelectedCat} labelCat={labelCat} handleClick={handleClickDownload}
       />
       
       {/* tělo tabulky */}
       
       <div className="lg:w-2/3 flex-grow md:border bg-white md:border-gray-300 rounded-xl md:p-2 lg:m-2 mt-4 w-full shadow-[0_10px_25px_rgba(0,0,0,0.1),0_10px_50px_rgba(0,0,0,0.2)] border-gradient-to-r from-gray-200 to-gray-500"> 
-        <table className="min-w-full text-xs relative md:text-start md:text-sm bg-white text-gray-500 dark:text-gray-400">
-          <thead className="text-xs  md:text-sm rounded-xl border-gray-300 text-gray-700  bg-white dark:bg-gray-700 dark:text-gray-400">
+        <table className="min-w-full text-xs relative md:text-start md:text-sm bg-white text-gray-500">
+          <thead className="text-xs  md:text-sm rounded-xl border-gray-300 text-gray-700  bg-white">
             <tr className="bg-white clear-start align-top  overflow-auto  ">
             {columnsNamesMainList.map((column) => {
               return (
@@ -112,7 +116,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
                   key={column.key}
                   onClick={column.sorting === true ? () => { handleSorting(column.key) } : undefined}
                   scope="col"
-                  className={`sticky top-12 lg:-top-1 bg-slate-700 pl-1   ${column.sorting === true ? 'hover:cursor-pointer hover:bg-slate-500 dark:hover:bg-gray-600' : ''} text-white text-start md:mx-2 z-10 border-[1px] border-transparent dark:bg-gray-700 pr-4 py-2 w-auto md:text-sm text-xs`}
+                  className={`sticky top-12 lg:-top-1 bg-slate-700 pl-1   ${column.sorting === true ? 'hover:cursor-pointer hover:bg-slate-500 ' : ''} text-white text-start md:mx-2 z-10 border-[1px] border-transparent  pr-4 py-2 w-auto md:text-sm text-xs`}
                 >
                   {column.label}
                   {column.sorting === true && 
@@ -130,7 +134,7 @@ export default function ProductTable({ inputRows, categories, priceRange }) {
           <tbody>
             {paginatedRows.map((row) => (
                 <React.Fragment key={row.id} >
-                    <tr className=" text-xs md:text-sm border-b dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <tr className=" text-xs md:text-sm border-b   hover:bg-gray-50 ">
                         {columnsNamesMainList.map((column) => {
                           let cellContent;
                           switch (column.key) {
